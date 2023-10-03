@@ -26,7 +26,7 @@ void _UnitTestFramework_delete(UnitTestFramework* fw);
     if (UNIT_TEST_FRAMEWORK_VAR_NAME->err_count) {                                      \
         printf("\n\n%d unit tests failed\n", UNIT_TEST_FRAMEWORK_VAR_NAME->err_count);  \
         _UnitTestFramework_delete(UNIT_TEST_FRAMEWORK_VAR_NAME);                        \
-        exit(-1);                                                                       \
+        exit(1);                                                                        \
     }                                                                              
 
 #define ASSERT_PRINT(x) { _Generic((x),               \
@@ -41,17 +41,21 @@ void _UnitTestFramework_delete(UnitTestFramework* fw);
     const char*:    fprintf(stderr, "%s", x),         \
     default:        fprintf(stderr, "%p", (void*)x)   \
 ); }                                                  
-
-#define ASSERT(func, expected, ...) {                                  \
-    if (func(__VA_ARGS__) != expected) {                               \
-        fprintf(stderr, "Assertion failed in line %d: ", GET_LINE);    \
-        fprintf(stderr, "%s(%s) = ", #func, #__VA_ARGS__);             \
-        ASSERT_PRINT(func(__VA_ARGS__));                               \
+                                
+#define ASSERT_EQUAL(lvalue, rvalue) {                                 \
+    if ((lvalue) != (rvalue)) {                                        \
+        fprintf(stderr, "Assertion failed: ");                         \
+        fprintf(stderr, "%s = ", #lvalue);                             \
+        ASSERT_PRINT(lvalue);                                          \
         fprintf(stderr, ", expected: ");                               \
-        ASSERT_PRINT(expected);                                        \
+        ASSERT_PRINT(rvalue);                                          \
         fprintf(stderr, ". File: %s, Line: %d\n", GET_FILE, GET_LINE); \
         UNIT_TEST_FRAMEWORK_VAR_NAME->err_count++;                     \
-    } }                                                                \
+    }; }
+
+#define ASSERT(func, args, expected) {                                 \
+    ASSERT_EQUAL(func args, expected);                                 \
+}
 
 #endif // !UNIT_TEST_FRAMEWORK
 

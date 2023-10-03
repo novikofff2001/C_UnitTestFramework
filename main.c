@@ -16,36 +16,38 @@ int* make_another_pointer(int* p) {
 }
 
 void test_double_sum() {
-	ASSERT(double_sum, 4, 2, 2);
-	ASSERT(double_sum, 10, 5, 5);
+	ASSERT(double_sum, (2, 2), 4);
+	ASSERT(double_sum, (5, 5), 10);
 }
 
 void test_triple_sum() {
-	ASSERT(triple_sum, 6, 2, 2, 2);
-	ASSERT(triple_sum, 20, 10, 5, 5);
+	ASSERT(triple_sum, (2, 2, 2), 6);
+	ASSERT(triple_sum, (5, 5, 5), 15);
 }
 
 void test_pointer_creation() {
 	{
 		int* a = NULL;
-		ASSERT(make_another_pointer, a, a);
-		ASSERT(make_another_pointer, NULL, a);
+		ASSERT(make_another_pointer, (a), a);
+		ASSERT(make_another_pointer, (NULL), a);
 	};
 
 	{
 		int* a = (int*)malloc(sizeof(int));
-		ASSERT(make_another_pointer, a, a);
-		ASSERT(make_another_pointer, NULL, NULL);
+		ASSERT(make_another_pointer, (a), a);
+		ASSERT(make_another_pointer, (NULL), NULL);
 		free(a);
 	};
 }
 
 void test_wrong() {
-	ASSERT(double_sum, 11, 5, 5);
-	ASSERT(triple_sum, 5, 1, 1, 1);
+	ASSERT_EQUAL(5, 6);
+	ASSERT(double_sum, (1, 2), 5);
+	ASSERT(double_sum, (5, 5), 15);
+	ASSERT(triple_sum, (1, 1, 1), 5);
 	{
 		int* a = (int*)malloc(sizeof(int));
-		ASSERT(make_another_pointer, NULL, a);
+		ASSERT(make_another_pointer, (NULL), a);
 		free(a);
 	}
 }
