@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Build",
+			"command": "/usr/bin/gcc",
+			"args": [
+				"-std=c11",
+				"-fdiagnostics-color=always",
+				"-g",
+				" *.c",
+				"-o",
+				"${fileDirname}/main"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: /usr/bin/gcc"
+		},
+		{
+			"label": "Run",
+			"command": "./main",
+			"problemMatcher": []
+		}
+	]
+}
