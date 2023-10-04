@@ -26,7 +26,7 @@ To use the framework, you'll need to declare some macros within the scope you're
 
 Here's a quick example to get you started:
 
-```C main.c
+```C
 UNIT_TESTS_INIT;
 
 void test_all() {
